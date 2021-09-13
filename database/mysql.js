@@ -10,7 +10,7 @@ class MySQL {
 
     constructor() {
 
-        console.log( 'MySQL singleton has ben initializing' );
+        console.log( 'MySQL singleton has been initializing' );
 
         this.cnn = mysql.createConnection({
             host: process.env.DB_HOST,

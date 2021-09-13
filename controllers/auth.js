@@ -28,16 +28,16 @@ const createUser = async( req, res = express.response ) => {
 
         const salt = bcrypt.genSaltSync();
         const hashPass = bcrypt.hashSync( password, salt );
-
+        const fullName = `${ username.split(' ')[0] } ${ last_name.split(' ')[0] }`;
         const { insertId } = await MySQL.execQuery( sqlCreateUser, [ username, last_name, email, hashPass, ] );
         
-        token = await JWTGenerator( insertId, username );
+        token = await JWTGenerator( insertId, fullName );
 
         res.status( 201 ).json({
             ok: true,
             msg: 'Usuario creado exitosamente',
             uid: insertId,
-            name: username,
+            name: fullName,
             token
         });
 
@@ -74,7 +74,7 @@ const loginUser = async( req, res = express.response ) => {
         }
 
         const user = { ...resp[ 0 ] };
-
+        const fullName = `${ user.username.split(' ')[0] } ${ user.last_name.split(' ')[0] }`;
         const passValidator = bcrypt.compareSync( password, user.password );
 
         if ( !passValidator ) {
@@ -84,11 +84,11 @@ const loginUser = async( req, res = express.response ) => {
             });
         }
 
-        token = await JWTGenerator( user.uid, user.username );
+        token = await JWTGenerator( user.uid, fullName );
         res.status( 200 ).json({
             ok: true,
             uid: user.uid,
-            name: user.username,
+            name: fullName,
             token,
         });
 
@@ -102,11 +102,29 @@ const loginUser = async( req, res = express.response ) => {
 }
 
 
+const renewToken = async( req, res = response ) => {
 
+    // console.log( req );
+
+    const uid = req.uid;
+    const name = req.name;
+
+    const token = await JWTGenerator( uid, name );
+
+
+    res.json({
+        ok: true,
+        uid,
+        name,
+        token
+    })
+
+}
 
 
 
 module.exports = {
     createUser,
     loginUser,
+    renewToken,
 }

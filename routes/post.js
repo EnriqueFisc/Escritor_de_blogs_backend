@@ -2,7 +2,7 @@ const { Router } = require( 'express' );
 
 const { upload } = require('../middlewares/uploadFiles');
 const { tokenValidator } = require('../middlewares/tokenValidator');
-const { getPosts, createPost, updatePost, deletePost } = require('../controllers/posts');
+const { getPosts, createPost, updatePost, deletePost, uploadImg } = require('../controllers/posts');
 
 const router = Router();
 
@@ -15,15 +15,21 @@ router.get(
 router.post( 
     '/', 
     tokenValidator,
-    upload.single( 'image' ),
+    upload.single( 'imageUrl' ),
     createPost, 
 );
 
 router.put( 
     '/:id',
     tokenValidator,
-    upload.single( 'image' ),
+    upload.single( 'imageUrl' ),
     updatePost 
+);
+router.post( 
+    '/updateImg',
+    tokenValidator,
+    upload.single( 'imageUrl' ),
+    uploadImg
 );
 
 router.delete( 

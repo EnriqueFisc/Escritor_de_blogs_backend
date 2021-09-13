@@ -10,7 +10,7 @@ const getPosts = async( req, res = express.response ) => {
     const uid = req.uid;
 
     const sql = `
-        SELECT * FROM Posts WHERE user_id = ?;
+        SELECT * FROM Posts WHERE user_id = ? ORDER BY date DESC;
     `;
 
     try {
@@ -34,12 +34,10 @@ const getPosts = async( req, res = express.response ) => {
 const createPost = async( req, res = express.response ) => {
 
     const uid = req.uid;
-    const imgUrl = ( !!req.file ) ? 
-            `${ process.env.HOST }:${ process.env.PORT }/uploads/img/${req.file.filename}` 
-            : null ;
     const {
         title,
         body,
+        imageUrl
     } = req.body;
     const date = new Date().getTime();
     const sql = `
@@ -49,11 +47,11 @@ const createPost = async( req, res = express.response ) => {
     
     try {
 
-        await MySQL.execQuery( sql, [ title, body, date, uid, imgUrl ], );
+        const { insertId } = await MySQL.execQuery( sql, [ title, body, date, uid, imageUrl ], );
 
         res.status( 200 ).json({
             ok: true,
-            msg: 'El post se publicó exitosamente'
+            post: { id: insertId, title, body, date, imageUrl, uid,  }
         });
 
     } catch ( err ) {
@@ -69,10 +67,8 @@ const createPost = async( req, res = express.response ) => {
 const updatePost = async( req, res = express.response ) => {
 
     const { id:postID } = req.params;
-    const { title, body } = req.body;
-    const imgUrl = ( !!req.file ) ? 
-            `${ process.env.HOST }:${ process.env.PORT }/uploads/img/${req.file.filename}` 
-            : null ;
+    const { title, body, imageUrl } = req.body;
+
     const updatePostSql = `
         UPDATE Posts SET title = ?, body = ?, imageUrl = ? WHERE id = ?;
     `;
@@ -91,20 +87,24 @@ const updatePost = async( req, res = express.response ) => {
             });
         }
 
-        const { imageUrl } = resp[0];
-        let imgFilename = ( imageUrl ) ? imageUrl.split('/')[ imageUrl.split('/').length - 1 ] : null;
-
+        const { imageUrl:imgDoc } = resp[0];
+        let imgFilename = ( imgDoc ) ? imgDoc.split('/')[ imgDoc.split('/').length - 1 ] : null;
         
-        await MySQL.execQuery( updatePostSql, [ title, body, imgUrl, postID ], );
+        const img = ( !!imageUrl ) ? imageUrl : imgDoc;
+        console.log( img, imgDoc );
+        if ( img !== imgDoc ) {
+            if ( !!imgFilename ) {
+                fs.unlinkSync( path.resolve( __dirname, `../public/uploads/img/${ imgFilename }` ) );
+            }
+        }
+        
+        await MySQL.execQuery( updatePostSql, [ title, body, img, postID ], );
         
         res.status( 200 ).json({
             ok: true,
             msg: 'La publicación se actualizó con exito'
         });
         
-        if ( imgFilename ) {
-            fs.unlinkSync( path.resolve( __dirname, `../public/uploads/img/${ imgFilename }` ) );
-        }
 
     } catch ( err ) {
         console.log( err );
@@ -114,6 +114,24 @@ const updatePost = async( req, res = express.response ) => {
         });
     }
 
+}
+
+const uploadImg = async( req, res = express.response ) => {
+
+    const prevImg = req.body.prevImg;
+    const imgUrl = ( !!req.file ) ? 
+            `${ process.env.HOST }:${ process.env.PORT }/uploads/img/${req.file.filename}` 
+            : null ;
+
+    if ( !!prevImg ) {
+        let fileName = prevImg.split('/')[ prevImg.split('/').length - 1 ]
+        fs.unlinkSync( path.resolve( __dirname, `../public/uploads/img/${ fileName }` ) );
+    }
+    
+    res.status(200).json({
+        ok: true,
+        imgUrl
+    })
 }
 
 const deletePost = async( req, res = express.response ) => {
@@ -166,4 +184,5 @@ module.exports = {
     createPost,
     updatePost,
     deletePost,
+    uploadImg,
 }
