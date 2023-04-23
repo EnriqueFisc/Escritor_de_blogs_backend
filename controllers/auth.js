@@ -10,9 +10,9 @@ const createUser = async( req, res = express.response ) => {
     let token;
     const { username, last_name, email, password } = req.body;
     const sqlFindUser = `
-        SELECT * FROM Users WHERE email = ?;`;
+        SELECT * FROM users WHERE email = ?;`;
     const sqlCreateUser = `
-        INSERT INTO Users ( username, last_name, email, password )
+        INSERT INTO users ( username, last_name, email, password )
         VALUE ( ?, ?, ?, ? ); `;
 
     try {
@@ -58,7 +58,7 @@ const loginUser = async( req, res = express.response ) => {
     let token;
     const { email, password } = req.body; 
     const sql = `
-        SELECT * FROM Users WHERE email = ?;
+        SELECT * FROM users WHERE email = ?;
     `;
     const escapeSql = [ email ];
     

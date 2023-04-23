@@ -10,7 +10,7 @@ const getPosts = async( req, res = express.response ) => {
     const uid = req.uid;
 
     const sql = `
-        SELECT * FROM Posts WHERE user_id = ? ORDER BY date DESC;
+        SELECT * FROM posts WHERE user_id = ? ORDER BY date DESC;
     `;
 
     try {
@@ -41,7 +41,7 @@ const createPost = async( req, res = express.response ) => {
     } = req.body;
     const date = new Date().getTime();
     const sql = `
-        INSERT INTO Posts ( title, body, date, user_id, imageUrl )
+        INSERT INTO posts ( title, body, date, user_id, imageUrl )
         VALUE( ?, ?, ?, ?, ? ); 
     `;
     
@@ -70,10 +70,10 @@ const updatePost = async( req, res = express.response ) => {
     const { title, body, imageUrl } = req.body;
 
     const updatePostSql = `
-        UPDATE Posts SET title = ?, body = ?, imageUrl = ? WHERE id = ?;
+        UPDATE posts SET title = ?, body = ?, imageUrl = ? WHERE id = ?;
     `;
     const findSqlQuery = `
-        SELECT * FROM Posts WHERE id = ?;
+        SELECT * FROM posts WHERE id = ?;
     `;
 
     try {
@@ -138,10 +138,10 @@ const deletePost = async( req, res = express.response ) => {
 
     const { id:postID } = req.params;
     const deleteSqlQuery = `
-        DELETE FROM Posts WHERE id = ?;
+        DELETE FROM posts WHERE id = ?;
     `;
     const findSqlQuery = `
-        SELECT * FROM Posts WHERE id = ?;
+        SELECT * FROM posts WHERE id = ?;
     `;
 
     try {

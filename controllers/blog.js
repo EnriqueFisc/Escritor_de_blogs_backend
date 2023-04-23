@@ -7,7 +7,7 @@ const getBlogsPosts = async( req, res= express.response ) => {
 
     const { initLimit } = req.params;
     const sql = `
-        SELECT * FROM Posts ORDER BY date DESC LIMIT ?,3;
+        SELECT * FROM posts ORDER BY date DESC LIMIT ?,3;
     `;
 
     try {
