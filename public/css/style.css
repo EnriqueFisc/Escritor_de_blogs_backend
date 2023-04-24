@@ -196,7 +196,7 @@
     grid-template-columns: repeat(
         auto-fit,
         minmax(
-            200px,
+            300px,
             1fr
         )
     );
@@ -302,5 +302,13 @@
     .portfolio__about-me-data{
         width: 100%;
     }
-    
+    .portfolio__my-projects-content {
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(
+                200px,
+                1fr
+            )
+        );
+    }
 }
