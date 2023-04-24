@@ -4,49 +4,60 @@
     padding: 0;
     font-family: 'Roboto', sans-serif;
 }
-body {
-    /* height: 100vh;
-    width: 100vw; */
+html{
+    /* height: 100vh; */
+    width: 100%;
 } 
 .portfolio__main-container {
     /* background-color: #E4E4E4; */
     /* background-color: #ffffff; */
-    display: grid;
     
     /* overflow-y: scroll; */
     width: 100%;
+    display: grid;
 }
 .portfolio__container {
     background-color: #ffffff;
     border-radius: 25px;
     height: 100%;
-    display: grid;
+    /* display: grid; */
     /* margin: 50px; */
     /* width: 1000px; */
     width: 100%;
 }
 .portfolio__about-me {
-    justify-self: center;
+    /* align-items: center; */
+    margin-top: 50px;
     display: grid;
-    /* gap: 100px; */
-    width: 80%;
-    grid-template-rows: 1fr;
+    width: 100%;
+    grid-template-rows: 1fr 1fr;
 }
 .portfolio__introducing-me {
     /* gap: 50px 100px; */
+    justify-self: center;
     /* background-color: green; */
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(
+            300px,
+            1fr
+        )
+    );
+    
     display: grid;
-    grid-template-columns: 3fr 2fr;
-    height: 500px;
-    width: 100%;
+    /* grid-template-columns: 3fr 2fr; */
+    /* height: 500px; */
+    width: 80%;
 }
 .portfolio__introduce-container {
+    justify-self: center;
     align-items: center;
     /* background-color: oldlace; */
+    align-items: center;
     display: flex;
     height: 100%;
     justify-content: center;
-    width: 100%;
+    width: 80%;
 }
 .portfolio__introduce {
     /* margin: 20px; */
@@ -55,7 +66,7 @@ body {
     gap: 5px;
     grid-template-rows: 1fr 1fr 1fr 1fr 2fr;
     height: 80%;
-    width: 80%;
+    width: 100%;
 }
 .portfolio__introduce div{
     /* height: 100px; */
@@ -73,19 +84,26 @@ body {
     font-weight: bolder;
 }
 .portfolio__introduce > div > span{
-    width: 50%;
+    width: 100%;
 }
-.portfolio__introduce > div > button{
-    
+.portfolio__introduce > div > a{
+    align-items: center;
     border: 0;/* width: 50%; */
+    text-decoration: none;
     border-radius: 10px;
     background-color: #7FE689;
     cursor: pointer;
-    font-weight: bold;
-    font-size: 15px;
     color: white;
+    display: flex;
+    justify-content: center;
     width: 150px;
     height: 50px;
+}
+.portfolio__introduce > div > a > span {
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+    width: 100%;
 }
 .portfolio__image-me {
     align-items: center;
@@ -109,8 +127,10 @@ body {
 }
 .portfolio__about-me-data {
     /* background-color: blue; */
-    height: 500px;
-    width: 100%;
+    /* height: 500px; */
+    justify-self: center;
+    /* align-items: center; */
+    width: 80%;
     display: grid;
     grid-template-rows: 1fr 5fr;
     /* gap: 5px; */
@@ -127,10 +147,17 @@ body {
 }
 .portfolio__about-me-content {
     /* background-color: orangered; */
+    /* justify-self: center; */
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(
+            200px,
+            3fr
+        )
+    );
 }
 .portfolio__about-me-description {
     /* background-color: orange; */
@@ -140,7 +167,7 @@ body {
     justify-content: center;
     text-align: center;
     align-items: center;
-    height: 100%;
+    /* height: 100%; */
 }
 .portfolio__about-me-description > span{
     margin: 5px;
@@ -150,9 +177,34 @@ body {
 .portfolio__about-me-images-container {
     /* background-color: orangered; */
     /* border-left:  1px solid black; */
-    
+    /* align-items: center; */
+    justify-self: center;
     width: 100%;
     height: 100%;
+    display: grid;
+    gap: 10px;
+}
+.portfolio__about-me-images-container span {
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}
+.portfolio__about-me-images-content {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(
+            200px,
+            1fr
+        )
+    );
+}
+.portfolio__about-me-image-box{
+    justify-self: center;
+    width: 200px;
+}
+.portfolio__about-me-image{
+    width: 100%;
 }
 .portfolio__my-projects-container {
     background-color: #707070;
@@ -259,4 +311,26 @@ body {
     width: 100%;
     font-size: 25px;
     /* font-weight: bold; */
+}
+
+@media( max-width: 400px ){
+    .portfolio__about-me {
+        margin-top: 20px;
+    }
+    .portfolio__introducing-me {
+        width: 90%;
+    }
+    .portfolio__about-me-description span{
+        width: 90%;
+    }
+    .portfolio__introduce-container {
+        width: 100%;
+    }
+    .my-projects-text{
+        width: 90%;
+    }
+    .portfolio__about-me-data{
+        width: 100%;
+    }
+    
 }
