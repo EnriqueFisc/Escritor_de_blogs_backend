@@ -230,6 +230,7 @@ html {
     width: 100%;
 }
 .portfolio__my-skills-container {
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -258,7 +259,7 @@ html {
     height: 150px;
     box-shadow: 5px 5px 15px 1px rgba(0, 0, 0, 0.2);
     border-radius: .5rem;
-
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
